@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page isELIgnored="false" %>
 
@@ -18,24 +18,47 @@
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous">
 
-<title>Hello, world!</title>
+<title><c:out value="${page }"></c:out></title>
 </head>
 <body>
 	<div class="container mt-3">
 		<h1 class="text-center">Welcome to ToDo Manager</h1>
+		
+		<c:if test="${not empty msg }">
+			<div class="alert alert-success">
+			<b><c:out value="${msg }"></c:out></b>
+		</div>
+		</c:if>
 
 		<div class="row mt-4">
 			<div class="col-md-2">
 				<div class="list-group">
-					<a href="#" class="list-group-item list-group-item-action active">
-						Menu </a> <a href="#"
-						class="list-group-item list-group-item-action">Add ToDo</a> <a href="#"
-						class="list-group-item list-group-item-action">View ToDo</a>
+					<a href="#" class="list-group-item list-group-item-action active"> Menu </a> 
+					<a href='<c:url value='/add'> </c:url>' class="list-group-item list-group-item-action">Add ToDo</a> 
+					<a href='<c:url value='/home'> </c:url>' class="list-group-item list-group-item-action">View ToDo</a>
 			</div>
 			</div>
 			<div class="col-md-10 ">
-				<h3 class="text-center">Content</h3>
-				<h3 class="text-center"> <c:out value="${name}"></c:out></h3>
+				<c:if test="${page=='home' }">
+					<h2 class="text-center">All TODOs</h2>
+				</c:if>
+				<c:if test="${page=='add' }">
+					<h2 class="text-center">Add ToDo</h2>
+					
+					<br>
+					<form:form action="saveTodo" method="post" modelAttribute="todo">
+						<div class="form-group">
+							<form:input path="todoTitle" cssClass="form-control" placeholder="Enter Your ToDo Title"/>
+						</div>
+						<div class="form-group">
+							<form:textarea path="todoContent" cssClass="form-control" placeholder="Enter Your ToDo Content" cssStyle="height:300px;"/>
+						</div>
+						<div class="container text-center">
+							<button class="btn btn-outline-success">Add ToDo</button>
+						</div>
+					
+					</form:form>
+				</c:if>
 			</div>
 		</div>
 
