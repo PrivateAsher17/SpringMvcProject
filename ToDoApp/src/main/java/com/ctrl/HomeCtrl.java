@@ -23,6 +23,8 @@ public class HomeCtrl {
 	public String home(Model m) {
 		String str = "home";
 		m.addAttribute("page", str);
+		List<Todo> list = (List<Todo>)context.getAttribute("list");
+		m.addAttribute("todos", list);
 		return "home";
 	}
 	
